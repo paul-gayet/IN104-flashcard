@@ -489,10 +489,12 @@ class Window(tk.Frame):
 			global delay
 			global need_to_be_reviewed 
 			today= datetime.datetime.now()
-			
+			one_day = datetime.timedelta(1,0,0)
+			three_day = datetime.timedelta(3,0,0)
+			nine_day = datetime.timedelta(9,0,0)
 			#each bin for space repetition is represented by an element of the list delay
 
-			delay=[datetime.timedelta(0,0,0),datetime.timedelta(1,0,0),datetime.timedelta(3,0,0),datetime.timedelta(6,0,0),datetime.timedelta(9,0,0)]
+			delay=[today,one_day,three_day,nine_day]
 
 			
 			#check if the difference in date between when the card was last reviewed and the delay is set to a date that is before today
@@ -569,7 +571,7 @@ class Window(tk.Frame):
 			self.top_level.config(background='#40E0D0')
 			self.top_level.title("Congratulation")
 			congrats=tk.Label(self.top_level,text="It's a good answer !! Well done",fg='white',bg='#40E0D0').pack(expand=tk.YES)
-			if card_playing.location < 4:
+			if card_playing.location < len(delay)-1:
 				card_playing.location+=1       
 			card_playing.date=today
 		
@@ -588,7 +590,7 @@ class Window(tk.Frame):
 		
 		need_to_be_reviewed.pop(0)
 		
-		#save the deck because the card have changed
+		#save the deck because card.date et card.location have changed
 		
 		mydeck.save_deck(file_to_save)
 		
